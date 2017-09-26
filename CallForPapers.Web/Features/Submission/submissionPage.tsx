@@ -1,9 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 
 class Form extends React.Component {
   render () {
-    return <div />
+    return <div>Hello From REACT!</div>
   }
 }
 
