@@ -1,20 +1,36 @@
 import { Configuration } from 'webpack'
-import * as Path from 'path'
+const path = require('path')
+const glob = require('glob')
+
+// Build a map of all entry files indexed by page name
+const entries = glob.sync('./Features/**/*Page.tsx').reduce((result, item) => {
+  const entryName = path.basename(item, '.tsx')
+  result[entryName] = item
+  return result
+}, {})
 
 const config: Configuration = {
-  entry: ['./Features/Submission/submissionPage.tsx'],
-  output: {
-    path: Path.join(__dirname, 'wwwroot'),
-    filename: '[name].js'
+  entry: entries,
+  resolve: {
+    extensions: [ '.ts', '.tsx', '.js', '.jsx' ],
+    alias: {
+      '~': path.join(__dirname, 'ClientApp')
+    }
   },
+  output: {
+    path: path.join(__dirname, 'wwwroot', 'dist'),
+    filename: '[name].js',
+    publicPath: 'dist/'
+  },
+  devtool: 'source-map',
   module: {
     rules: [
       {
         test: /\.tsx?/,
-        loader: 'awesome-typescript-loader'
+        use: 'awesome-typescript-loader'
       }
     ]
   }
 }
 
-export default config
+module.exports = config

@@ -1,10 +1,10 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
+import initPage from '~/initPage'
+import { reducers } from './store'
+import Container from './Container'
 
-class Form extends React.Component {
-  render () {
-    return <div>Hello From REACT!</div>
-  }
+const { render, updateStore } = initPage({ Container, reducers })
+
+if (module && module.hot) {
+  module.hot.accept('./Container', () => render(Container))
+  module.hot.accept('./store', updateStore)
 }
-
-ReactDOM.render(<Form />, document.getElementById('app'))

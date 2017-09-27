@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace CallForPapers.Web.Features.Submission
 {
     [Route("api/[controller]")]
-    public class SubmissionController
+    public class SubmissionController : Controller
     {
         private readonly SubmissionContext context;
         private readonly ILogger<SubmissionController> logger;
@@ -21,18 +22,20 @@ namespace CallForPapers.Web.Features.Submission
         }
 
         [HttpPost]
-        public void PostSubmission(SubmissionInput input)
+        public IActionResult PostSubmission([FromBody] SubmissionInput input)
         {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
             context.Add(Mapper.Map<Data.Entities.Submission>(input));
             context.SaveChanges();
             logger.LogInformation("New submission from {FirstName} {LastName}", input.FirstName, input.LastName);
+            return Ok();
         }
 
         [HttpGet]
-        public IList<SubmissionResult> ListAllSubmissions()
-        {
-            return context.Submissions.ProjectTo<SubmissionResult>().ToList();
-        }
+        public IList<SubmissionResult> ListAllSubmissions() =>
+            context.Submissions.ProjectTo<SubmissionResult>().ToList();
     }
 
     public class SubmissionResult
@@ -47,10 +50,16 @@ namespace CallForPapers.Web.Features.Submission
 
     public class SubmissionInput
     {
-
+        [Required]
         public string FirstName { get; set; }
+
+        [Required]
         public string LastName { get; set; }
+
+        [Required]
         public string Title { get; set; }
+
+        [Required]
         public string Abstract { get; set; }
     }
 }

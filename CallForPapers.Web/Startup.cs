@@ -1,6 +1,9 @@
-﻿using CallForPapers.Web.Data;
+﻿using System;
+using System.Collections.Generic;
+using CallForPapers.Web.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +25,8 @@ namespace CallForPapers.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<SubmissionContext>(c => c.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<SubmissionContext>(c =>
+                c.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "My API", Version = "v1"}); });
         }
 
@@ -31,6 +35,15 @@ namespace CallForPapers.Web
         {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
+
+                Environment.SetEnvironmentVariable("NODE_PATH", "../node_modules");
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                    HotModuleReplacement = true,
+                    HotModuleReplacementClientOptions = new Dictionary<string, string> {
+                        {"reload", "true"}
+                    },
+                    ReactHotModuleReplacement = true
+                });
             }
 
             app.UseStaticFiles();
