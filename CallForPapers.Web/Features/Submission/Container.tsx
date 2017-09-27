@@ -10,7 +10,7 @@ const { TextCell } = createTypedFormComponents<Submission>()
 class Container extends React.Component<Props> {
   render () {
     const commonProps = {
-      form: this.props.form,
+      form: this.props.model,
       onFieldChange: this.props.onFieldChange
     }
     return (

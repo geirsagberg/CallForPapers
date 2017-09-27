@@ -1,9 +1,9 @@
 import { actionBuilderFactory } from '~/reduxUtils'
 
-export type FormState = { form: Submission }
+export type FormState = { model: Submission }
 
 export interface AppState {
-  formState: FormState
+  form: FormState
 }
 
 export interface Submission {
@@ -36,8 +36,8 @@ const onFieldChange = actionBuilder<OnFieldChange>(ActionTypes.OnFieldChange)('f
 const resetForm = actionBuilder<ResetForm>(ActionTypes.ResetForm)()
 
 const submitForm = () => (dispatch, getState: () => AppState) => {
-  const form = getState().formState.form
-  const { firstName, lastName, title, abstract } = form
+  const model = getState().form.model
+  const { firstName, lastName, title, abstract } = model
   fetch('/api/Submission', {
     method: 'post',
     body: JSON.stringify({ firstName, lastName, title, abstract }),
@@ -63,7 +63,7 @@ export const actionCreators = {
 }
 
 const initialFormState: FormState = {
-  form: {
+  model: {
     firstName: '',
     lastName: '',
     title: '',
@@ -74,7 +74,7 @@ const initialFormState: FormState = {
 function formReducer (state = initialFormState, action: Action): FormState {
   switch (action.type) {
     case ActionTypes.OnFieldChange:
-      return { ...state, form: { ...state.form, [action.field]: action.newValue } }
+      return { ...state, model: { ...state.model, [action.field]: action.newValue } }
     case ActionTypes.ResetForm:
       return initialFormState
   }
