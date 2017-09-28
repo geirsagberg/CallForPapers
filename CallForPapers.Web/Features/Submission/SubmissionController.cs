@@ -24,7 +24,7 @@ namespace CallForPapers.Web.Features.Submission
             mediator.Send(new GetSubmissionsRequest());
 
         [HttpPost]
-        public Task SubmitPaper(SubmissionInput submission) => mediator.Send(submission);
+        public Task SubmitPaper([FromBody]SubmissionInput submission) => mediator.Send(submission);
     }
 
     public class SubmissionHandler : IRequestHandler<GetSubmissionsRequest, ICollection<SubmissionResult>>,

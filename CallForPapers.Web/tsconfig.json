@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "es2015",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [ "ClientApp/*" ]
+    }
+  },
+  "exclude": [ "wwwroot" ],
+  "awesomeTypescriptLoaderOptions": {
+    "silent": true
+  }
+}
