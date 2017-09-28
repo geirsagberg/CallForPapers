@@ -1,4 +1,5 @@
 ﻿using CallForPapers.Web.Data;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ namespace CallForPapers.Web
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
             services.AddDbContext<SubmissionContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddMediatR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
