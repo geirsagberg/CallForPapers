@@ -2,6 +2,9 @@
 
 ## Links
 
+Relevant Gist:
+https://gist.github.com/geirsagberg/02d65efddc2e4313245c4803e56365ed
+
 ASP.NET Core 2.0:
 https://docs.microsoft.com/aspnet/core/
 
