@@ -1,5 +1,3 @@
-import { actionBuilderFactory } from '~/reduxUtils'
-
 export type FormState = { model: Submission }
 
 export interface AppState {
@@ -30,10 +28,8 @@ interface ResetForm {
 
 type Action = OnFieldChange | ResetForm
 
-const actionBuilder = actionBuilderFactory<Action>()
-
-const onFieldChange = actionBuilder<OnFieldChange>(ActionTypes.OnFieldChange)('field', 'newValue')
-const resetForm = actionBuilder<ResetForm>(ActionTypes.ResetForm)()
+const onFieldChange = (field, newValue): OnFieldChange => ({ type: ActionTypes.OnFieldChange, field, newValue })
+const resetForm = (): ResetForm => ({ type: ActionTypes.ResetForm })
 
 const submitForm = () => (dispatch, getState: () => AppState) => {
   const model = getState().form.model
@@ -71,7 +67,7 @@ const initialFormState: FormState = {
   }
 }
 
-function formReducer (state = initialFormState, action: Action): FormState {
+function formReducer(state = initialFormState, action: Action): FormState {
   switch (action.type) {
     case ActionTypes.OnFieldChange:
       return { ...state, model: { ...state.model, [action.field]: action.newValue } }
