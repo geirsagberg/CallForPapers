@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CallForPapers.Web.Features.Submissions
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SubmissionsController
     {
