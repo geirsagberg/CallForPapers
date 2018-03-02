@@ -1,13 +1,10 @@
-﻿using System;
-using CallForPapers.Web.Data;
+﻿using CallForPapers.Web.Data;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace CallForPapers.Web
@@ -45,34 +42,9 @@ namespace CallForPapers.Web
 
             app.UseStaticFiles();
 
-            app.Use(async (context, next) =>
-            {
-                try
-                {
-                    await next();
-                }
-                catch (Exception ex)
-                {
-                    if (!context.Request.Path.StartsWithSegments("/api"))
-                    {
-                        throw;
-                    }
+            app.UseMiddleware<ApiExceptionHandlerMiddleware>();
 
-                    context.Response.Clear();
-                    context.Response.StatusCode = 500;
-                    context.Response.Headers.Add("content-type", "application/json");
-                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new
-                    {
-                        error = new
-                        {
-                            message = ex.Message,
-                            exception = ex
-                        }
-                    }));
-                }
-            });
-
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc();
             app.UseSwagger();
 
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"); });
