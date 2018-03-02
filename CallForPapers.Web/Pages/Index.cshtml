@@ -1,7 +1,21 @@
 ﻿@page
+@model CallForPapers.Web.Pages.IndexModel
 
-<script src="~/myscript.js"></script>
+<div>
+    <form method="post">
+        <input placeholder="First Name" asp-for="Submission.FirstName"/><br/>
+        <input placeholder="Last Name" asp-for="Submission.LastName"/><br/>
+        <input placeholder="Title" asp-for="Submission.Title"/><br/>
+        <input placeholder="Abstract" asp-for="Submission.LastName"/><br/>
+        <input type="submit" value="Submit"/>
+    </form>
+    <br/>
 
-Hello from Razor
-
-<a asp-page="About">About</a>
+    <h1>Submissions</h1>
+    <ul id="result">
+        @foreach (var submission in Model.Submissions)
+        {
+            <li>@submission.FirstName @submission.LastName: @submission.Title</li>
+        }
+    </ul>
+</div>

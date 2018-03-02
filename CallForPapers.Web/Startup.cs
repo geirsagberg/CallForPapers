@@ -53,6 +53,11 @@ namespace CallForPapers.Web
                 }
                 catch (Exception ex)
                 {
+                    if (!context.Request.Path.StartsWithSegments("/api"))
+                    {
+                        throw;
+                    }
+
                     context.Response.Clear();
                     context.Response.StatusCode = 500;
                     context.Response.Headers.Add("content-type", "application/json");
