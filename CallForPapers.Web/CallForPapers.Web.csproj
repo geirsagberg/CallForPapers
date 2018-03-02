@@ -9,6 +9,7 @@
     <PackageReference Include="mediatr" Version="4.0.1" />
     <PackageReference Include="mediatr.Extensions.Microsoft.DependencyInjection" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0-preview1-final" />
+    <PackageReference Include="Seq.Extensions.Logging" Version="4.0.0" />
     <PackageReference Include="swashbuckle.aspnetcore" Version="2.2.0" />
   </ItemGroup>
 
